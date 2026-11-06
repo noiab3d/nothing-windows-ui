@@ -11,10 +11,8 @@
 
 ## Not tested yet
 
-- **ARM64 has never been run.** The installer builds and is the right architecture, but it has not been run on an ARM device yet. Reports are very welcome.
 - **Other models.** Only the Nothing Ear (a) has been tested. Everything else relies on data from the ear-web project, and the app shows a warning. Controls may not match, or may not work.
 - **On the Ear (a):** changing the codec, switching dual connection on or off, and disconnecting another device from the list.
-- **In this build:** custom EQ, dual connection, Disconnect / Connect, the tray menu, notifications, and hiding on outside click haven't been tried yet.
 - **Screen scaling above 100%, multiple monitors, and taskbars not at the bottom of the screen.** The panel opens in the bottom-right of the primary screen.
 
 ## Limitations

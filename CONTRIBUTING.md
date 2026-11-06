@@ -2,7 +2,7 @@
 
 Thanks for helping out! The most useful things right now:
 
-1. **Testing on other models and on ARM64.** Use the [model report](https://github.com/noiab3d/nothing-windows-ui/issues/new?template=model_report.md).
+1. **Testing on other models.** Use the [model report](https://github.com/noiab3d/nothing-windows-ui/issues/new?template=model_report.md).
 2. **Reviewing translations.** They're all in `i18n.json`.
 3. **Bug reports.** Check the [known issues](KNOWN_ISSUES.md) first.
 

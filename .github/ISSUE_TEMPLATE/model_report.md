@@ -1,6 +1,6 @@
 ---
 name: Model report
-about: Tell us how the app works with your earbuds, or on ARM64
+about: Tell us how the app works with your earbuds
 title: "Model report: "
 labels: model-report
 ---
