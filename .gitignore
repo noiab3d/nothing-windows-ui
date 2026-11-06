@@ -1,0 +1,14 @@
+# Personal settings: contains your earbuds' Bluetooth address
+config.json
+
+# Installers are published on the Releases page
+instaladores/
+*.msi
+
+__pycache__/
+*.pyc
+
+node_modules/
+rust/ui/
+rust/src-tauri/target/
+rust/src-tauri/gen/

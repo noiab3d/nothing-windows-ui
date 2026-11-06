@@ -1,0 +1,1679 @@
+{
+ "ids": {
+  "00FDED": "B197",
+  "03464E": "B162",
+  "056133": "B173",
+  "072714": "B195",
+  "086485": "B192",
+  "0F1A4F": "B172",
+  "1016DD": "B157",
+  "1253C0": "B172",
+  "148887": "B190",
+  "150A27": "B168",
+  "19EF24": "B179",
+  "1D07D4": "B195",
+  "1EFB39": "B175",
+  "26C190": "B164",
+  "2B353E": "B172",
+  "2D6FDA": "B170",
+  "2EB1CA": "B163",
+  "2F45F5": "B172",
+  "31D53D": "B181",
+  "359A7D": "B197",
+  "3B1320": "B197",
+  "404D6D": "B162",
+  "4AEB6E": "B184",
+  "4DFC4A": "B164",
+  "509CAE": "B185",
+  "53BFE6": "B195",
+  "563DA5": "B175",
+  "5C587F": "B184",
+  "5E3FBC": "B162",
+  "5F8F82": "B163",
+  "624011": "B181",
+  "6F6C71": "B186",
+  "70F8E3": "B185",
+  "73C9EB": "B175",
+  "77FDD8": "B173",
+  "79B3A9": "B186",
+  "7B2328": "B190",
+  "7D46E5": "B173",
+  "810478": "B186",
+  "839E9A": "B162",
+  "8B6380": "B162",
+  "8F28ED": "B189",
+  "97EF75": "B186",
+  "98D02B": "B186",
+  "9EAC04": "B195",
+  "A20444": "B171",
+  "A292C6": "B186",
+  "A544CE": "B195",
+  "A7B220": "B172",
+  "ACC520": "B155",
+  "ACCE54": "B168",
+  "ADD2C4": "B163",
+  "AE35FD": "B164",
+  "BFD53B": "B186",
+  "C19ECD": "B170",
+  "C1EBFD": "B173",
+  "C34F3B": "B162",
+  "CA36A6": "B172",
+  "CC3444": "B174",
+  "CDFDEC": "B192",
+  "D35E18": "B168",
+  "D9AB5D": "B179",
+  "DA1280": "B189",
+  "DB45D3": "B190",
+  "DCD2CB": "B189",
+  "DE8953": "B186",
+  "DEE8C0": "B155",
+  "E1BE45": "B172",
+  "E6673A": "B189",
+  "E9C3BE": "B190",
+  "ED5412": "B185",
+  "F29566": "B172",
+  "F51D3D": "B195",
+  "FC3AAF": "B174",
+  "FEB1C7": "B171",
+  "FF2AB0": "B179"
+ },
+ "models": {
+  "B155": {
+   "name": "Ear (2)",
+   "single": false,
+   "anc": 63,
+   "fit": true,
+   "bass_levels": 0,
+   "dual": true,
+   "dual_reboot": true,
+   "hq": 2,
+   "custom_eq": {
+    "freqLow": 140.0,
+    "qLow": 0.8,
+    "freqPeak": 980.0,
+    "qPeak": 0.7,
+    "freqHigh": 3400.0,
+    "qHigh": 1.0
+   },
+   "eq_presets": true,
+   "in_ear": true,
+   "ring": "sides",
+   "gestures": [
+    {
+     "device": 2,
+     "button": 1,
+     "type": 2,
+     "label": "g_double",
+     "ops": [
+      8,
+      9,
+      11
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 3,
+     "label": "g_triple",
+     "ops": [
+      8,
+      9,
+      11
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      10,
+      18,
+      19,
+      11
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 9,
+     "label": "g_dhold",
+     "ops": [
+      10,
+      18,
+      19,
+      11,
+      1
+     ]
+    }
+   ]
+  },
+  "B157": {
+   "name": "Ear (Stick)",
+   "single": false,
+   "anc": 0,
+   "fit": false,
+   "bass_levels": 0,
+   "dual": false,
+   "dual_reboot": false,
+   "hq": 0,
+   "custom_eq": {
+    "freqLow": 140.0,
+    "qLow": 0.8,
+    "freqPeak": 980.0,
+    "qPeak": 0.66,
+    "freqHigh": 3500.0,
+    "qHigh": 1.0
+   },
+   "eq_presets": true,
+   "in_ear": true,
+   "ring": "sides",
+   "gestures": [
+    {
+     "device": 2,
+     "button": 1,
+     "type": 2,
+     "label": "g_double",
+     "ops": [
+      8,
+      9,
+      11
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 3,
+     "label": "g_triple",
+     "ops": [
+      8,
+      9,
+      11
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      18,
+      19,
+      11
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 9,
+     "label": "g_dhold",
+     "ops": [
+      18,
+      19,
+      11,
+      1
+     ]
+    }
+   ]
+  },
+  "B162": {
+   "name": "Nothing Ear (a)",
+   "single": false,
+   "anc": 63,
+   "fit": true,
+   "bass_levels": 5,
+   "dual": true,
+   "dual_reboot": false,
+   "hq": 4,
+   "custom_eq": {
+    "freqLow": 140.0,
+    "qLow": 0.8,
+    "freqPeak": 980.0,
+    "qPeak": 0.7,
+    "freqHigh": 3400.0,
+    "qHigh": 1.0
+   },
+   "eq_presets": true,
+   "in_ear": true,
+   "ring": "sides",
+   "gestures": [
+    {
+     "device": 2,
+     "button": 1,
+     "type": 2,
+     "label": "g_double",
+     "ops": [
+      8,
+      9,
+      11
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 3,
+     "label": "g_triple",
+     "ops": [
+      8,
+      9,
+      11
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      10,
+      18,
+      19,
+      11
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 9,
+     "label": "g_dhold",
+     "ops": [
+      10,
+      18,
+      19,
+      11,
+      1
+     ]
+    }
+   ]
+  },
+  "B163": {
+   "name": "Buds Pro",
+   "single": false,
+   "anc": 55,
+   "fit": false,
+   "bass_levels": 0,
+   "dual": false,
+   "dual_reboot": false,
+   "hq": 0,
+   "custom_eq": {
+    "freqLow": 140.0,
+    "qLow": 0.8,
+    "freqPeak": 980.0,
+    "qPeak": 0.7,
+    "freqHigh": 3400.0,
+    "qHigh": 1.0
+   },
+   "eq_presets": true,
+   "in_ear": true,
+   "ring": "sides",
+   "gestures": [
+    {
+     "device": 2,
+     "button": 1,
+     "type": 2,
+     "label": "g_double",
+     "ops": [
+      2,
+      8,
+      9,
+      11
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 3,
+     "label": "g_triple",
+     "ops": [
+      8,
+      9,
+      11
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      10,
+      11
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 9,
+     "label": "g_dhold",
+     "ops": [
+      18,
+      19,
+      11,
+      1
+     ]
+    }
+   ]
+  },
+  "B164": {
+   "name": "Neckband Pro",
+   "single": true,
+   "anc": 63,
+   "fit": false,
+   "bass_levels": 5,
+   "dual": true,
+   "dual_reboot": true,
+   "hq": 0,
+   "custom_eq": {
+    "freqLow": 140.0,
+    "qLow": 0.8,
+    "freqPeak": 980.0,
+    "qPeak": 0.7,
+    "freqHigh": 6900.0,
+    "qHigh": 1.0
+   },
+   "eq_presets": true,
+   "in_ear": false,
+   "ring": "single",
+   "gestures": [
+    {
+     "device": 6,
+     "button": 1,
+     "type": 2,
+     "label": "g_double",
+     "ops": [
+      8,
+      9,
+      11
+     ]
+    },
+    {
+     "device": 6,
+     "button": 1,
+     "type": 3,
+     "label": "g_triple",
+     "ops": [
+      8,
+      9,
+      11
+     ]
+    },
+    {
+     "device": 6,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      10
+     ]
+    }
+   ]
+  },
+  "B168": {
+   "name": "CMF Buds",
+   "single": false,
+   "anc": 49,
+   "fit": false,
+   "bass_levels": 5,
+   "dual": true,
+   "dual_reboot": true,
+   "hq": 0,
+   "custom_eq": null,
+   "eq_presets": false,
+   "in_ear": true,
+   "ring": "sides",
+   "gestures": [
+    {
+     "device": 2,
+     "button": 1,
+     "type": 2,
+     "label": "g_double",
+     "ops": [
+      2,
+      8,
+      9,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 3,
+     "label": "g_triple",
+     "ops": [
+      8,
+      9,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      10,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 9,
+     "label": "g_dhold",
+     "ops": [
+      18,
+      19,
+      11,
+      1
+     ]
+    }
+   ]
+  },
+  "B170": {
+   "name": "Nothing Headphone (1)",
+   "single": true,
+   "anc": 63,
+   "fit": false,
+   "bass_levels": 5,
+   "dual": true,
+   "dual_reboot": false,
+   "hq": 4,
+   "custom_eq": {
+    "freqLow": 140.0,
+    "qLow": 0.8,
+    "freqPeak": 980.0,
+    "qPeak": 0.7,
+    "freqHigh": 3500.0,
+    "qHigh": 1.0
+   },
+   "eq_presets": true,
+   "in_ear": true,
+   "ring": "single",
+   "gestures": [
+    {
+     "device": 6,
+     "button": 10,
+     "type": 1,
+     "label": "g_single",
+     "ops": [
+      11,
+      10,
+      29,
+      1
+     ]
+    },
+    {
+     "device": 6,
+     "button": 10,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      11,
+      10,
+      29,
+      1
+     ]
+    },
+    {
+     "device": 6,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      10,
+      1
+     ]
+    }
+   ]
+  },
+  "B171": {
+   "name": "Nothing Ear",
+   "single": false,
+   "anc": 63,
+   "fit": true,
+   "bass_levels": 5,
+   "dual": true,
+   "dual_reboot": false,
+   "hq": 7,
+   "custom_eq": {
+    "freqLow": 140.0,
+    "qLow": 0.8,
+    "freqPeak": 980.0,
+    "qPeak": 0.7,
+    "freqHigh": 3400.0,
+    "qHigh": 1.0
+   },
+   "eq_presets": true,
+   "in_ear": true,
+   "ring": "sides",
+   "gestures": [
+    {
+     "device": 2,
+     "button": 1,
+     "type": 2,
+     "label": "g_double",
+     "ops": [
+      8,
+      9,
+      11
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 3,
+     "label": "g_triple",
+     "ops": [
+      8,
+      9,
+      11
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      10,
+      18,
+      19,
+      11
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 9,
+     "label": "g_dhold",
+     "ops": [
+      10,
+      18,
+      19,
+      11,
+      1
+     ]
+    }
+   ]
+  },
+  "B172": {
+   "name": "CMF Buds Pro 2",
+   "single": false,
+   "anc": 63,
+   "fit": true,
+   "bass_levels": 5,
+   "dual": true,
+   "dual_reboot": true,
+   "hq": 4,
+   "custom_eq": null,
+   "eq_presets": false,
+   "in_ear": true,
+   "ring": "sides",
+   "gestures": [
+    {
+     "device": 2,
+     "button": 1,
+     "type": 2,
+     "label": "g_double",
+     "ops": [
+      2,
+      8,
+      9,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 3,
+     "label": "g_triple",
+     "ops": [
+      8,
+      9,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      10,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 9,
+     "label": "g_dhold",
+     "ops": [
+      18,
+      19,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 4,
+     "button": 1,
+     "type": 1,
+     "label": "g_single",
+     "ops": [
+      2,
+      9,
+      8,
+      11,
+      17,
+      1
+     ]
+    },
+    {
+     "device": 4,
+     "button": 1,
+     "type": 2,
+     "label": "g_double",
+     "ops": [
+      2,
+      9,
+      8,
+      11,
+      17,
+      1,
+      3
+     ]
+    },
+    {
+     "device": 4,
+     "button": 1,
+     "type": 3,
+     "label": "g_triple",
+     "ops": [
+      2,
+      9,
+      8,
+      11,
+      17,
+      1
+     ]
+    },
+    {
+     "device": 4,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      10,
+      11,
+      17,
+      1
+     ]
+    },
+    {
+     "device": 4,
+     "button": 1,
+     "type": 10,
+     "label": "g_rotate",
+     "ops": [
+      23,
+      1
+     ]
+    }
+   ]
+  },
+  "B173": {
+   "name": "Nothing Ear (3)",
+   "single": false,
+   "anc": 63,
+   "fit": true,
+   "bass_levels": 5,
+   "dual": true,
+   "dual_reboot": false,
+   "hq": 4,
+   "custom_eq": {
+    "freqLow": 140.0,
+    "qLow": 0.8,
+    "freqPeak": 980.0,
+    "qPeak": 0.7,
+    "freqHigh": 3400.0,
+    "qHigh": 1.0
+   },
+   "eq_presets": true,
+   "in_ear": true,
+   "ring": "sides",
+   "gestures": [
+    {
+     "device": 2,
+     "button": 1,
+     "type": 2,
+     "label": "g_double",
+     "ops": [
+      9,
+      8,
+      11
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 3,
+     "label": "g_triple",
+     "ops": [
+      9,
+      8,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      10,
+      11,
+      18,
+      19,
+      29,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 9,
+     "label": "g_dhold",
+     "ops": [
+      10,
+      11,
+      18,
+      19,
+      1
+     ]
+    },
+    {
+     "device": 4,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      11,
+      1
+     ]
+    }
+   ]
+  },
+  "B174": {
+   "name": "Nothing Ear (open)",
+   "single": false,
+   "anc": 0,
+   "fit": false,
+   "bass_levels": 0,
+   "dual": true,
+   "dual_reboot": false,
+   "hq": 0,
+   "custom_eq": {
+    "freqLow": 140.0,
+    "qLow": 0.8,
+    "freqPeak": 980.0,
+    "qPeak": 0.7,
+    "freqHigh": 3400.0,
+    "qHigh": 1.0
+   },
+   "eq_presets": true,
+   "in_ear": false,
+   "ring": "sides",
+   "gestures": [
+    {
+     "device": 2,
+     "button": 1,
+     "type": 2,
+     "label": "g_double",
+     "ops": [
+      8,
+      9,
+      11
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 3,
+     "label": "g_triple",
+     "ops": [
+      8,
+      9,
+      11
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      18,
+      19,
+      11
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 9,
+     "label": "g_dhold",
+     "ops": [
+      18,
+      19,
+      11,
+      1
+     ]
+    }
+   ]
+  },
+  "B175": {
+   "name": "CMF Headphone Pro",
+   "single": true,
+   "anc": 63,
+   "fit": false,
+   "bass_levels": 0,
+   "dual": true,
+   "dual_reboot": false,
+   "hq": 4,
+   "custom_eq": null,
+   "eq_presets": false,
+   "in_ear": false,
+   "ring": "sides",
+   "gestures": [
+    {
+     "device": 6,
+     "button": 10,
+     "type": 1,
+     "label": "g_single",
+     "ops": [
+      11,
+      10,
+      29,
+      1
+     ]
+    },
+    {
+     "device": 6,
+     "button": 10,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      11,
+      10,
+      29,
+      1
+     ]
+    },
+    {
+     "device": 6,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      10
+     ]
+    }
+   ]
+  },
+  "B179": {
+   "name": "CMF Buds 2",
+   "single": false,
+   "anc": 63,
+   "fit": true,
+   "bass_levels": 5,
+   "dual": true,
+   "dual_reboot": false,
+   "hq": 0,
+   "custom_eq": null,
+   "eq_presets": false,
+   "in_ear": true,
+   "ring": "sides",
+   "gestures": [
+    {
+     "device": 2,
+     "button": 1,
+     "type": 2,
+     "label": "g_double",
+     "ops": [
+      2,
+      8,
+      9,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 3,
+     "label": "g_triple",
+     "ops": [
+      8,
+      9,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      10,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 9,
+     "label": "g_dhold",
+     "ops": [
+      18,
+      19,
+      11,
+      1
+     ]
+    }
+   ]
+  },
+  "B181": {
+   "name": "Nothing ear (1)",
+   "single": false,
+   "anc": 53,
+   "fit": false,
+   "bass_levels": 0,
+   "dual": false,
+   "dual_reboot": false,
+   "hq": 0,
+   "custom_eq": null,
+   "eq_presets": true,
+   "in_ear": true,
+   "ring": "all",
+   "gestures": [
+    {
+     "device": 2,
+     "button": 1,
+     "type": 3,
+     "label": "g_triple",
+     "ops": [
+      8,
+      9,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      10,
+      1
+     ]
+    }
+   ]
+  },
+  "B184": {
+   "name": "CMF Buds 2 Plus",
+   "single": false,
+   "anc": 63,
+   "fit": true,
+   "bass_levels": 5,
+   "dual": true,
+   "dual_reboot": false,
+   "hq": 4,
+   "custom_eq": null,
+   "eq_presets": false,
+   "in_ear": true,
+   "ring": "sides",
+   "gestures": [
+    {
+     "device": 2,
+     "button": 1,
+     "type": 2,
+     "label": "g_double",
+     "ops": [
+      2,
+      8,
+      9,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 3,
+     "label": "g_triple",
+     "ops": [
+      8,
+      9,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      10,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 9,
+     "label": "g_dhold",
+     "ops": [
+      18,
+      19,
+      11,
+      1
+     ]
+    }
+   ]
+  },
+  "B185": {
+   "name": "CMF Buds 2a",
+   "single": false,
+   "anc": 49,
+   "fit": false,
+   "bass_levels": 5,
+   "dual": true,
+   "dual_reboot": false,
+   "hq": 0,
+   "custom_eq": null,
+   "eq_presets": false,
+   "in_ear": false,
+   "ring": "sides",
+   "gestures": [
+    {
+     "device": 2,
+     "button": 1,
+     "type": 2,
+     "label": "g_double",
+     "ops": [
+      2,
+      8,
+      9,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 3,
+     "label": "g_triple",
+     "ops": [
+      8,
+      9,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      10,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 9,
+     "label": "g_dhold",
+     "ops": [
+      18,
+      19,
+      11,
+      1
+     ]
+    }
+   ]
+  },
+  "B186": {
+   "name": "Nothing Headphone (a)",
+   "single": true,
+   "anc": 63,
+   "fit": false,
+   "bass_levels": 3,
+   "dual": true,
+   "dual_reboot": false,
+   "hq": 4,
+   "custom_eq": {
+    "freqLow": 140,
+    "qLow": 0.8,
+    "freqPeak": 980,
+    "qPeak": 0.7,
+    "freqHigh": 3500,
+    "qHigh": 1
+   },
+   "eq_presets": true,
+   "in_ear": false,
+   "ring": "single",
+   "gestures": [
+    {
+     "device": 6,
+     "button": 10,
+     "type": 1,
+     "label": "g_single",
+     "ops": [
+      11,
+      10,
+      29,
+      1
+     ]
+    },
+    {
+     "device": 6,
+     "button": 10,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      11,
+      10,
+      29,
+      1
+     ]
+    },
+    {
+     "device": 6,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      10,
+      1
+     ]
+    }
+   ]
+  },
+  "B189": {
+   "name": "CMF Clip Pro",
+   "single": false,
+   "anc": 0,
+   "fit": false,
+   "bass_levels": 3,
+   "dual": true,
+   "dual_reboot": false,
+   "hq": 4,
+   "custom_eq": null,
+   "eq_presets": false,
+   "in_ear": false,
+   "ring": "sides",
+   "gestures": [
+    {
+     "device": 2,
+     "button": 1,
+     "type": 2,
+     "label": "g_double",
+     "ops": [
+      8,
+      9,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 3,
+     "label": "g_triple",
+     "ops": [
+      8,
+      9,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      18,
+      19,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 9,
+     "label": "g_dhold",
+     "ops": [
+      18,
+      19,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 4,
+     "button": 1,
+     "type": 10,
+     "label": "g_rotate",
+     "ops": [
+      23,
+      1
+     ]
+    },
+    {
+     "device": 4,
+     "button": 1,
+     "type": 1,
+     "label": "g_single",
+     "ops": [
+      2,
+      9,
+      8,
+      11,
+      17,
+      1
+     ]
+    },
+    {
+     "device": 4,
+     "button": 1,
+     "type": 2,
+     "label": "g_double",
+     "ops": [
+      2,
+      9,
+      8,
+      11,
+      17,
+      1,
+      3
+     ]
+    },
+    {
+     "device": 4,
+     "button": 1,
+     "type": 3,
+     "label": "g_triple",
+     "ops": [
+      2,
+      9,
+      8,
+      11,
+      17,
+      1
+     ]
+    },
+    {
+     "device": 4,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      11,
+      17,
+      1
+     ]
+    }
+   ]
+  },
+  "B190": {
+   "name": "Nothing Ear (3a)",
+   "single": false,
+   "anc": 63,
+   "fit": true,
+   "bass_levels": 0,
+   "dual": true,
+   "dual_reboot": false,
+   "hq": 4,
+   "custom_eq": {
+    "freqLow": 140,
+    "qLow": 0.8,
+    "freqPeak": 980,
+    "qPeak": 0.7,
+    "freqHigh": 3400,
+    "qHigh": 1
+   },
+   "eq_presets": true,
+   "in_ear": true,
+   "ring": "sides",
+   "gestures": [
+    {
+     "device": 2,
+     "button": 1,
+     "type": 2,
+     "label": "g_double",
+     "ops": [
+      9,
+      8,
+      11
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 3,
+     "label": "g_triple",
+     "ops": [
+      9,
+      8,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      10,
+      18,
+      19,
+      11,
+      29,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 9,
+     "label": "g_dhold",
+     "ops": [
+      10,
+      18,
+      19,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 11,
+     "label": "g_both",
+     "ops": [
+      1
+     ]
+    }
+   ]
+  },
+  "B192": {
+   "name": "Nothing Headphone (1) Pro",
+   "single": true,
+   "anc": 63,
+   "fit": false,
+   "bass_levels": 0,
+   "dual": true,
+   "dual_reboot": false,
+   "hq": 4,
+   "custom_eq": {
+    "freqLow": 140,
+    "qLow": 0.8,
+    "freqPeak": 980,
+    "qPeak": 0.7,
+    "freqHigh": 3500,
+    "qHigh": 1
+   },
+   "eq_presets": true,
+   "in_ear": true,
+   "ring": "single",
+   "gestures": [
+    {
+     "device": 6,
+     "button": 10,
+     "type": 1,
+     "label": "g_single",
+     "ops": [
+      11,
+      10,
+      29,
+      1
+     ]
+    },
+    {
+     "device": 6,
+     "button": 10,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      11,
+      10,
+      29,
+      1
+     ]
+    },
+    {
+     "device": 6,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      10,
+      1
+     ]
+    }
+   ]
+  },
+  "B195": {
+   "name": "CMF Buds Pro 2",
+   "single": false,
+   "anc": 63,
+   "fit": true,
+   "bass_levels": 3,
+   "dual": true,
+   "dual_reboot": false,
+   "hq": 4,
+   "custom_eq": null,
+   "eq_presets": false,
+   "in_ear": true,
+   "ring": "sides",
+   "gestures": [
+    {
+     "device": 2,
+     "button": 1,
+     "type": 2,
+     "label": "g_double",
+     "ops": [
+      2,
+      8,
+      9,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 3,
+     "label": "g_triple",
+     "ops": [
+      8,
+      9,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      10,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 9,
+     "label": "g_dhold",
+     "ops": [
+      18,
+      19,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 4,
+     "button": 1,
+     "type": 1,
+     "label": "g_single",
+     "ops": [
+      2,
+      9,
+      8,
+      11,
+      17,
+      1
+     ]
+    },
+    {
+     "device": 4,
+     "button": 1,
+     "type": 2,
+     "label": "g_double",
+     "ops": [
+      2,
+      9,
+      8,
+      11,
+      17,
+      1,
+      3
+     ]
+    },
+    {
+     "device": 4,
+     "button": 1,
+     "type": 3,
+     "label": "g_triple",
+     "ops": [
+      2,
+      9,
+      8,
+      11,
+      17,
+      1
+     ]
+    },
+    {
+     "device": 4,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      10,
+      11,
+      17,
+      1
+     ]
+    },
+    {
+     "device": 4,
+     "button": 1,
+     "type": 10,
+     "label": "g_rotate",
+     "ops": [
+      23,
+      1
+     ]
+    }
+   ]
+  },
+  "B197": {
+   "name": "CMF Buds 2",
+   "single": false,
+   "anc": 63,
+   "fit": true,
+   "bass_levels": 3,
+   "dual": true,
+   "dual_reboot": false,
+   "hq": 0,
+   "custom_eq": null,
+   "eq_presets": false,
+   "in_ear": true,
+   "ring": "sides",
+   "gestures": [
+    {
+     "device": 2,
+     "button": 1,
+     "type": 2,
+     "label": "g_double",
+     "ops": [
+      2,
+      8,
+      9,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 3,
+     "label": "g_triple",
+     "ops": [
+      8,
+      9,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 7,
+     "label": "g_hold",
+     "ops": [
+      10,
+      11,
+      1
+     ]
+    },
+    {
+     "device": 2,
+     "button": 1,
+     "type": 9,
+     "label": "g_dhold",
+     "ops": [
+      18,
+      19,
+      11,
+      1
+     ]
+    }
+   ]
+  }
+ }
+}

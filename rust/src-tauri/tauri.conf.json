@@ -1,0 +1,47 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Nothing Windows UI",
+  "version": "1.1.1",
+  "identifier": "local.nothingwindowsui.app",
+  "build": {
+    "frontendDist": "../ui",
+    "beforeBuildCommand": "node sync-ui.js"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "label": "main",
+        "title": "Nothing Windows UI",
+        "width": 344,
+        "height": 561,
+        "visible": false,
+        "resizable": false,
+        "maximizable": false,
+        "minimizable": false,
+        "decorations": false,
+        "skipTaskbar": true,
+        "shadow": true,
+        "backgroundColor": "#F4F4F2"
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["msi"],
+    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/icon.ico"],
+    "shortDescription": "Unofficial control panel for Nothing earbuds",
+    "publisher": "Nothing Windows UI (unofficial)",
+    "windows": {
+      "webviewInstallMode": { "type": "downloadBootstrapper", "silent": true },
+      "wix": {
+        "language": "en-US",
+        "bannerPath": "installer/banner.bmp",
+        "dialogImagePath": "installer/dialog.bmp"
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "nothing-windows-ui",
+  "private": true,
+  "scripts": {
+    "build:x64": "tauri build --target x86_64-pc-windows-msvc",
+    "build:arm64": "tauri build --target aarch64-pc-windows-msvc"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2"
+  }
+}

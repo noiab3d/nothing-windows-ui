@@ -1,0 +1,805 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nothing Windows UI</title>
+<script>try { if (localStorage.getItem("theme") === "oled") document.documentElement.dataset.theme = "oled"; } catch (e) {}</script>
+<style>
+  @font-face { font-family: "Doto"; src: url("fonts/doto.woff2") format("woff2"); font-weight: 100 900; }
+  @font-face { font-family: "Space Grotesk"; src: url("fonts/space-grotesk.woff2") format("woff2"); font-weight: 300 700; }
+  @font-face { font-family: "Space Mono"; src: url("fonts/space-mono-400.woff2") format("woff2"); font-weight: 400; }
+  @font-face { font-family: "Space Mono"; src: url("fonts/space-mono-700.woff2") format("woff2"); font-weight: 700; }
+
+  :root {
+    --bg: #f4f4f2; --grid: #dadad6; --card: #ffffff; --ink: #000000; --ink2: #5c5c5c; --ink3: #a3a3a0;
+    --line: #e6e6e2; --soft: #efefec; --soft2: #e4e4e0; --off: #dcdcd8; --inv: #ffffff; --red: #d71921;
+    --mono: "Space Mono", ui-monospace, monospace;
+    --dot: "Doto", "Space Mono", monospace;
+  }
+  :root[data-theme="oled"] {
+    --bg: #000000; --grid: #141414; --card: #000000; --ink: #ffffff; --ink2: #8c8c8c; --ink3: #4d4d4d;
+    --line: #1c1c1c; --soft: #111111; --soft2: #1c1c1c; --off: #262626; --inv: #000000;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background-color: var(--bg);
+    background-image: radial-gradient(var(--grid) 1px, transparent 1.3px);
+    background-size: 12px 12px;
+    color: var(--ink); font-family: "Space Grotesk", "Segoe UI", sans-serif; font-size: 13px;
+    user-select: none; overflow: hidden; display: flex; flex-direction: column;
+  }
+  .mono { font-family: var(--mono); text-transform: uppercase; letter-spacing: .12em; font-size: 9.5px; }
+  .dot { font-family: var(--dot); font-weight: 800; }
+
+  /* header */
+  header { flex: none; display: flex; align-items: center; justify-content: space-between; padding: 12px 8px 8px 16px; }
+  header h1 { margin: 0; font-size: 24px; line-height: 1; pointer-events: none; }
+  .status { display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; color: var(--ink2); pointer-events: none; }
+  .status i { width: 6px; height: 6px; border-radius: 50%; background: var(--ink); }
+  .status.off i { background: var(--red); animation: blink 1.2s steps(2) infinite; }
+  .status.wait i { background: var(--ink3); animation: blink .6s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .wbtns { display: flex; gap: 2px; align-self: flex-start; }
+  .wbtn { width: 30px; height: 26px; border: 0; background: transparent; border-radius: 8px; cursor: pointer; display: grid; place-items: center; color: var(--ink); }
+  .wbtn:hover { background: var(--soft2); }
+  .wbtn.x:hover { background: var(--red); color: #fff; }
+
+  main { flex: 1; overflow-y: auto; padding: 0 10px 12px; scrollbar-width: thin; scrollbar-color: var(--off) transparent;
+    display: flex; flex-direction: column; }
+  main > * { flex: none; }
+  main::-webkit-scrollbar { width: 4px; } main::-webkit-scrollbar-thumb { background: var(--off); border-radius: 2px; }
+
+  .card { background: var(--card); border-radius: 18px; padding: 13px 14px; margin-bottom: 6px; border: 1px solid var(--line); }
+  .card h2 { margin: 0 0 10px; display: flex; justify-content: space-between; color: var(--ink2); font-weight: 400; }
+  .card h2 b { color: var(--ink3); font-weight: 400; }
+  .sub { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); }
+  .row + .sub { margin-top: 0; padding-top: 10px; }  /* same rhythm as the rows above */
+
+  /* devices */
+  .devices { display: grid; grid-template-columns: 1fr 1.3fr 1fr; align-items: end; text-align: center; }
+  .dev svg { display: block; margin: 0 auto 7px; overflow: visible; }
+  .dev svg circle { fill: var(--ink); transition: fill .3s; }
+  .dev svg circle.o { fill: var(--soft); }
+  .dev svg circle.e { fill: var(--off); }  /* above the battery level */
+  .dev.stale svg circle { fill: var(--ink3); }
+  .dev.stale svg circle.e { fill: var(--off); }
+  .dev.stale svg circle.o { fill: transparent; }
+  .dev.na svg circle { fill: var(--off); }
+  .dev.na svg circle.o { fill: transparent; }
+  .dev.ring svg circle { fill: var(--red); animation: blink .5s steps(2) infinite; }
+  .dev .pct { font-size: 21px; line-height: 1; }
+  .dev .pct small { font-size: 11px; }
+  .dev.na .pct { color: var(--ink3); }
+  .dev.stale .pct { color: var(--ink2); }
+  .dev.stale .lbl { letter-spacing: .04em; }
+  .dev .lbl { margin-top: 5px; color: var(--ink2); font-size: 8.5px; }
+  .dev .chg { color: var(--red); }
+  .dev.low .pct, .dev.low .lbl { color: var(--red); }
+
+  /* disconnected */
+  .offline { text-align: center; padding: 18px 16px; }
+  .offline h3 { margin: 0 0 6px; font-size: 20px; }
+  .offline p { margin: 0 auto; color: var(--ink2); max-width: 260px; line-height: 1.4; font-size: 12px; }
+  .scan { display: flex; justify-content: center; gap: 6px; margin-top: 14px; }
+  .scan span { width: 5px; height: 5px; border-radius: 50%; background: var(--off); animation: scan 1.6s infinite; }
+  @keyframes scan { 0%, 60%, 100% { background: var(--off); } 20% { background: var(--red); } }
+  .cta { display: block; width: 100%; margin-top: 14px; padding: 11px 14px; border: 0; border-radius: 999px; background: var(--red); color: #fff; cursor: pointer; font: inherit; font-size: 12px; font-weight: 500; line-height: 1.3; transition: opacity .15s; }
+  .cta:hover { opacity: .85; }
+  .cta.ghost { background: var(--soft); color: var(--ink); }
+  .cta.ghost:hover { background: var(--soft2); opacity: 1; }
+
+  /* custom EQ: one row of dots per band, filled from the centre (0 dB) */
+  #custom-eq { margin-top: 10px; }
+  .band { display: flex; align-items: center; gap: 8px; padding: 4px 0; }
+  .band .name { width: 46px; flex: none; color: var(--ink2); font-size: 8.5px; }
+  .band .dots { display: flex; flex: 1; justify-content: space-between; }
+  .band button { width: 16px; height: 18px; padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
+  .band button::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--soft2); transition: background .12s; }
+  .band button.zero::before { background: var(--ink3); }
+  .band button.f::before { background: var(--ink); }
+  .band button.tip::before { background: var(--red); }
+  .band .val { width: 24px; flex: none; text-align: right; font-family: var(--dot); font-weight: 800; font-size: 14px; }
+
+  .devices.one { grid-template-columns: 1fr; }
+  .banner { color: var(--ink2); font-size: 11px; line-height: 1.35; padding: 9px 12px; margin-bottom: 6px; border-radius: 12px; border: 1px dashed var(--line); background: var(--card); }
+  .confirm { margin-top: 10px; padding: 10px 12px; background: var(--soft); border-radius: 12px; }
+  .confirm p { margin: 0 0 8px; color: var(--ink2); font-size: 11px; line-height: 1.35; }
+  .confirm div { display: flex; gap: 6px; }
+  .confirm .cta { margin: 0; padding: 8px 10px; font-size: 11px; }
+  .dual-dev { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 6px 0 6px 10px; }
+  .dual-dev .t { font-size: 12px; min-width: 0; overflow-wrap: anywhere; }
+
+  /* ANC */
+  .anc { display: flex; }
+  .anc button { flex: 1; }
+  .anc button { border: 0; background: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 0; color: var(--ink); font: inherit; }
+  .anc .ic { width: 44px; height: 44px; border-radius: 50%; background: var(--soft); display: grid; place-items: center; transition: background .2s; }
+  .anc button:hover .ic { background: var(--soft2); }
+  .anc svg * { stroke: var(--ink); } .anc svg .fill { fill: var(--ink); stroke: none; }
+  .anc button.sel .ic { background: var(--ink); }
+  .anc button.sel svg * { stroke: var(--inv); } .anc button.sel svg .fill { fill: var(--inv); }
+  .anc .mono { color: var(--ink2); font-size: 8.5px; letter-spacing: .08em; }
+  .anc button.sel .mono { color: var(--ink); font-weight: 700; }
+  .seg { position: relative; display: flex; background: var(--soft); border-radius: 999px; padding: 3px; }
+  .seg button { position: relative; z-index: 1; flex: 1; border: 0; background: transparent; border-radius: 999px; padding: 7px 0; cursor: pointer; font-family: var(--mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink2); transition: color .2s; }
+  .seg button.sel { color: var(--ink); font-weight: 700; }
+  /* sliding selection pill */
+  .seg .pill { position: absolute; top: 3px; bottom: 3px; left: 0; width: 0; border-radius: 999px; background: var(--card);
+    box-shadow: 0 1px 2px rgba(0,0,0,.1); transition: transform .28s cubic-bezier(.3,.7,.2,1), width .28s cubic-bezier(.3,.7,.2,1); }
+  .seg .pill.instant { transition: none; }
+  :root[data-theme="oled"] .seg .pill { background: var(--soft2); box-shadow: none; }
+  #nc-level { margin-top: 12px; }
+
+  /* EQ */
+  .eq { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+  .chip { border: 1px solid var(--line); background: var(--card); padding: 9px 11px; border-radius: 12px; cursor: pointer; text-align: left; font: inherit; color: var(--ink); display: flex; justify-content: space-between; align-items: center; }
+  .chip:hover { border-color: var(--ink3); }
+  .chip i { width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid var(--ink3); }
+  .chip.sel { background: var(--ink); color: var(--inv); border-color: var(--ink); }
+  .chip.sel i { border-color: var(--red); background: var(--red); }
+  .note { color: var(--ink2); font-size: 11px; margin-top: 8px; line-height: 1.35; }
+  .bass { display: flex; align-items: center; gap: 10px; }
+  .bass .t { flex: 1; }
+  .bassdots { display: flex; gap: 6px; }
+  .bassdots button { width: 14px; height: 14px; border-radius: 50%; border: 0; background: var(--soft2); cursor: pointer; padding: 0; transition: background .15s; }
+  .bassdots button.f { background: var(--ink); }
+  .bassdots.dis { opacity: .3; pointer-events: none; }
+
+  /* rows & toggles */
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 0; border-top: 1px dashed var(--line); }
+  .row.first { border-top: 0; padding-top: 0; }
+  .row:last-child { padding-bottom: 0; }
+  .t small { display: block; color: var(--ink2); font-size: 11px; margin-top: 1px; }
+  .tog { position: relative; width: 36px; height: 20px; flex: none; }
+  .tog input { position: absolute; opacity: 0; }
+  .tog span { position: absolute; inset: 0; background: var(--off); border-radius: 999px; cursor: pointer; transition: .2s; }
+  .tog span::after { content: ""; position: absolute; width: 14px; height: 14px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: .2s; }
+  .tog input:checked + span { background: var(--red); }
+  .tog input:checked + span::after { transform: translateX(16px); }
+
+  select { appearance: none; border: 1px solid var(--line); background: var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M1 1l3 3 3-3' fill='none' stroke='%23888' stroke-width='1.4'/%3E%3C/svg%3E") no-repeat right 9px center;
+    border-radius: 9px; padding: 5px 24px 5px 9px; font: inherit; font-size: 12px; color: var(--ink); cursor: pointer; max-width: 58%; }
+  select option { background: var(--card); color: var(--ink); }
+  select:hover { border-color: var(--ink3); } select:disabled { opacity: .4; }
+  #g-side { margin-bottom: 8px; }
+
+  /* round tool buttons (same language as the noise-control buttons) */
+  .tools { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .tools button { border: 0; background: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 0; color: var(--ink); font: inherit; }
+  .tools .ic { width: 44px; height: 44px; border-radius: 50%; background: var(--soft); color: var(--ink); display: grid; place-items: center; transition: background .2s, color .2s; }
+  .tools button:hover .ic { background: var(--soft2); }
+  .tools .mono { color: var(--ink2); font-size: 8.5px; letter-spacing: .08em; }
+  .tools button.active .ic { background: var(--red); color: #fff; animation: pulse 1s infinite; }
+  .tools button.active .mono { color: var(--red); font-weight: 700; }
+  .tools button.busy .ic { background: var(--ink); color: var(--inv); }
+  .tools button.busy .ic svg { animation: spin 2.4s linear infinite; }
+  @keyframes pulse { 50% { opacity: .65; } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .fit { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 12px; padding: 9px 12px; background: var(--soft); border-radius: 12px; min-height: 34px; }
+  .fit .res { display: flex; align-items: center; gap: 6px; }
+  .fit .res i { width: 7px; height: 7px; border-radius: 50%; }
+  .fit b { font-family: var(--dot); font-size: 15px; }
+  .fit .msg { color: var(--ink2); font-size: 11px; text-align: center; line-height: 1.35; }
+  .fit .scan { margin: 0; }
+
+  .gcard { overflow: hidden; }
+
+  footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding: 8px 4px 0; color: var(--ink3); font-size: 8.5px; }
+  footer a { color: var(--ink2); cursor: pointer; } footer a:hover { color: var(--red); }
+  [hidden] { display: none !important; }
+
+  /* Checker dissolve: the old screen is masked away cell by cell, revealing the new one. */
+  ::view-transition-group(root) { animation: none; }
+  ::view-transition-image-pair(root) { isolation: auto; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation: dissolve-hold .42s linear both; mix-blend-mode: normal; }
+  ::view-transition-old(root) { z-index: 2; mask-image: var(--dissolve); mask-size: 100% 100%; -webkit-mask-image: var(--dissolve); -webkit-mask-size: 100% 100%; }
+  @keyframes dissolve-hold { from { opacity: 1; } to { opacity: 1; } }
+</style>
+</head>
+<body>
+<header class="pywebview-drag-region" data-tauri-drag-region>
+  <div>
+    <h1 class="dot" id="name">NOTHING</h1>
+    <div class="status mono wait" id="status"><i></i><span></span></div>
+  </div>
+  <div class="wbtns">
+    <button class="wbtn" id="theme-btn" data-i18n-title="oled"><svg width="13" height="13" viewBox="0 0 13 13"><circle cx="6.5" cy="6.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M6.5 1a5.5 5.5 0 0 1 0 11z" fill="currentColor"/></svg></button>
+    <button class="wbtn x" id="close" data-i18n-title="close"><svg width="9" height="9"><path d="M0 0l9 9M9 0L0 9" stroke="currentColor" stroke-width="1.3"/></svg></button>
+  </div>
+</header>
+
+<main>
+  <div class="banner" id="untested" data-i18n="experimental" hidden></div>
+  <section class="card" id="bat-card" hidden>
+    <div class="devices" id="devices">
+      <div class="dev na" id="dev-single" hidden><svg data-art="headphone"></svg><div class="pct dot">--</div><div class="lbl mono"></div></div>
+      <div class="dev na" id="dev-left"><svg data-art="bud"></svg><div class="pct dot">--</div><div class="lbl mono"></div></div>
+      <div class="dev na" id="dev-case"><svg data-art="case"></svg><div class="pct dot">--</div><div class="lbl mono"></div></div>
+      <div class="dev na" id="dev-right"><svg data-art="bud" data-mirror="1"></svg><div class="pct dot">--</div><div class="lbl mono"></div></div>
+    </div>
+  </section>
+
+  <section class="card offline" id="offline">
+    <h3 class="dot" id="off-title"></h3>
+    <p id="off-text"></p>
+    <button class="cta" id="bt-open" data-i18n="open_bt" hidden></button>
+    <button class="cta" id="bud-connect" data-i18n="connect" hidden></button>
+    <div class="scan" id="off-scan"><span></span><span style="animation-delay:.1s"></span><span style="animation-delay:.2s"></span><span style="animation-delay:.3s"></span><span style="animation-delay:.4s"></span><span style="animation-delay:.5s"></span><span style="animation-delay:.6s"></span></div>
+  </section>
+
+  <div id="controls" hidden>
+    <section class="card" id="anc-card">
+      <h2 class="mono"><span data-i18n="noise"></span><b></b></h2>
+      <div class="anc" id="anc">
+        <button data-v="nc"><div class="ic"><svg width="20" height="20"><circle class="fill" cx="10" cy="10" r="7.5"/></svg></div><span class="mono" data-i18n="anc_nc"></span></button>
+        <button data-v="transparency"><div class="ic"><svg width="20" height="20"><circle cx="10" cy="10" r="7.5" fill="none" stroke-width="1.8" stroke-dasharray="1.8 2.6"/></svg></div><span class="mono" data-i18n="anc_tr"></span></button>
+        <button data-v="off"><div class="ic"><svg width="20" height="20"><circle cx="10" cy="10" r="7.5" fill="none" stroke-width="1.8"/></svg></div><span class="mono" data-i18n="anc_off"></span></button>
+      </div>
+      <div class="seg" id="nc-level" hidden>
+        <button data-v="nc_adaptive" data-i18n="lvl_adaptive"></button><button data-v="nc_low" data-i18n="lvl_low"></button><button data-v="nc_mid" data-i18n="lvl_mid"></button><button data-v="nc_high" data-i18n="lvl_high"></button>
+      </div>
+    </section>
+
+    <section class="card" id="sound-card">
+      <h2 class="mono"><span data-i18n="sound"></span><b></b></h2>
+      <div class="eq" id="eq">
+        <button class="chip" data-v="0"><span data-i18n="eq_balanced"></span><i></i></button>
+        <button class="chip" data-v="3"><span data-i18n="eq_bass"></span><i></i></button>
+        <button class="chip" data-v="2"><span data-i18n="eq_treble"></span><i></i></button>
+        <button class="chip" data-v="1"><span data-i18n="eq_voice"></span><i></i></button>
+        <button class="chip" data-v="5" id="eq-custom-chip" style="grid-column: 1 / -1"><span data-i18n="eq_custom_chip"></span><i></i></button>
+      </div>
+      <div class="note" id="eq-custom" data-i18n="eq_custom" hidden></div>
+      <div id="custom-eq" hidden></div>
+      <div class="sub bass" id="bass-row">
+        <div class="t">Bass Enhance</div>
+        <div class="bassdots" id="bass-level"></div>
+        <label class="tog"><input type="checkbox" id="bass-on"><span></span></label>
+      </div>
+    </section>
+
+    <section class="card gcard" id="gesture-card">
+      <h2 class="mono"><span data-i18n="gestures"></span><b></b></h2>
+      <div class="seg" id="g-side"><button data-v="left" class="sel" data-i18n="left"></button><button data-v="right" data-i18n="right"></button></div>
+      <div id="gestures"></div>
+    </section>
+
+    <section class="card">
+      <h2 class="mono"><span data-i18n="earbuds"></span><b></b></h2>
+      <div class="row first" id="inear-row"><div class="t" data-i18n="inear"></div><label class="tog"><input type="checkbox" id="inear"><span></span></label></div>
+      <div class="row"><div class="t" data-i18n="latency"></div><label class="tog"><input type="checkbox" id="latency"><span></span></label></div>
+      <div class="row" id="dual-row"><div class="t" data-i18n="dual"></div><label class="tog"><input type="checkbox" id="dual"><span></span></label></div>
+      <div id="dual-list"></div>
+      <div class="row" id="codec-row" style="display:block">
+        <div class="t" data-i18n="codec" style="margin-bottom:8px"></div>
+        <div class="seg" id="codec"></div>
+        <div class="confirm" id="codec-confirm" hidden><p id="codec-warn"></p><div><button class="cta" id="codec-yes" data-i18n="confirm"></button><button class="cta ghost" id="codec-no" data-i18n="cancel"></button></div></div>
+      </div>
+      <div class="sub">
+        <div class="tools">
+          <button data-ring="left"><div class="ic"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="13" cy="10" r="2.4" fill="currentColor" stroke="none"/><path d="M8.6 6.6a4.8 4.8 0 0 0 0 6.8" stroke-dasharray="0.1 2.7"/><path d="M5.6 3.8a8.8 8.8 0 0 0 0 12.4" stroke-dasharray="0.1 2.7"/></svg></div><span class="mono"></span></button>
+          <button data-ring="right"><div class="ic"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="7" cy="10" r="2.4" fill="currentColor" stroke="none"/><path d="M11.4 6.6a4.8 4.8 0 0 1 0 6.8" stroke-dasharray="0.1 2.7"/><path d="M14.4 3.8a8.8 8.8 0 0 1 0 12.4" stroke-dasharray="0.1 2.7"/></svg></div><span class="mono"></span></button>
+          <button id="fit-btn"><div class="ic"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="10" cy="10" r="7.6" stroke-dasharray="0.1 2.9"/><circle cx="10" cy="10" r="3.2" fill="currentColor" stroke="none"/></svg></div><span class="mono"></span></button>
+        </div>
+        <div class="fit" id="fit" hidden></div>
+        <button class="cta ghost" id="bud-disconnect" data-i18n="disconnect"></button>
+        <div class="note" id="disconnect-note" data-i18n="disconnect_d"></div>
+      </div>
+    </section>
+  </div>
+
+  <section class="card">
+    <h2 class="mono"><span data-i18n="app"></span><b></b></h2>
+    <div class="row first"><div class="t" data-i18n="autostart"></div><label class="tog"><input type="checkbox" id="autostart"><span></span></label></div>
+    <div class="row"><div class="t" data-i18n="notifications"></div><label class="tog"><input type="checkbox" id="notifications"><span></span></label></div>
+    <div class="row"><div class="t" data-i18n="oled"></div><label class="tog"><input type="checkbox" id="oled"><span></span></label></div>
+    <div class="row"><div class="t" data-i18n="language"></div><select id="language"></select></div>
+  </section>
+
+  <footer class="mono"><span id="fw">FW --</span><a id="quit" data-i18n="quit"></a></footer>
+</main>
+
+<script>
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+
+/* ---------- dot-matrix art ---------- */
+const ART = {
+  bud: [
+    "...#####...",
+    ".#########.",
+    "###########",
+    "####ooo####",
+    "###ooooo###",
+    "###ooooo###",
+    "####ooo####",
+    ".#########.",
+    "..########.",
+    ".....####..",
+    ".....####..",
+    ".....####..",
+    ".....####..",
+    ".....####..",
+    "......##...",
+  ],
+  headphone: [
+    "...#########...",
+    "..###########..",
+    ".####.....####.",
+    "###.........###",
+    "###.........###",
+    "###.........###",
+    "###.........###",
+    "###.........###",
+    "####.......####",
+    "####.......####",
+    "####.......####",
+    ".##.........##.",
+  ],
+  case: [
+    ".#############.",
+    "###############",
+    "##ooooooooooo##",
+    "##oo#######oo##",
+    "##oo#ooooo#oo##",
+    "##oo#######oo##",
+    "##ooooooooooo##",
+    "###############",
+    ".#############.",
+  ],
+};
+function drawArt(svg) {
+  const rows = ART[svg.dataset.art], mirror = !!svg.dataset.mirror, cell = 4.4, r = 1.75;
+  const w = rows[0].length, h = rows.length;
+  svg.setAttribute("width", w * cell); svg.setAttribute("height", h * cell);
+  let out = "";
+  rows.forEach((row, y) => [...row].forEach((ch, x) => {
+    if (ch === ".") return;
+    const cx = (mirror ? w - 1 - x : x) * cell + cell / 2, cy = y * cell + cell / 2;
+    out += ch === "o" ? `<circle cx="${cx}" cy="${cy}" r="${r}" class="o"/>`
+                      : `<circle cx="${cx}" cy="${cy}" r="${r}" data-up="${(h - y) / h}"/>`;
+  }));
+  svg.innerHTML = out;
+}
+$$("svg[data-art]").forEach(drawArt);
+
+/* ---------- checker dissolve ---------- */
+/* Cells shrink away in a noisy diagonal sweep, like dust. The masks are drawn once and reused,
+   so the effect only costs anything during the 0.42 s it plays. */
+const DISSOLVE_MS = 420, DISSOLVE_STEPS = 12, CELL = 12;
+let maskFrames = null, maskKey = "";
+function dissolveMasks() {
+  const w = innerWidth, h = innerHeight, key = `${w}x${h}`;
+  if (key === maskKey) return maskFrames;
+  const cols = Math.ceil(w / CELL), rows = Math.ceil(h / CELL), cells = [];
+  for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
+    const sweep = (x / cols + (rows - y) / rows) / 2;                   // from bottom-left to top-right
+    cells.push([x, y, 0.5 * sweep + 0.32 * Math.random() + ((x + y) % 2 ? 0.14 : 0)]);  // +checker offset
+  }
+  const canvas = document.createElement("canvas");
+  canvas.width = w; canvas.height = h;
+  const ctx = canvas.getContext("2d");
+  ctx.fillStyle = "#000";
+  maskFrames = [];
+  for (let step = 0; step < DISSOLVE_STEPS; step++) {
+    const p = step / (DISSOLVE_STEPS - 1);
+    ctx.clearRect(0, 0, w, h);
+    for (const [x, y, t] of cells) {
+      const size = CELL * Math.max(0, Math.min(1, (t - p) / 0.14 + 1));  // shrinks as p passes t
+      if (size > 0) ctx.fillRect(x * CELL + (CELL - size) / 2, y * CELL + (CELL - size) / 2, size, size);
+    }
+    maskFrames.push(`url(${canvas.toDataURL()})`);
+  }
+  maskKey = key;
+  return maskFrames;
+}
+
+function withDissolve(update) {
+  if (!document.startViewTransition || document.hidden || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    update();
+    return;
+  }
+  const frames = dissolveMasks(), root = document.documentElement;
+  root.style.setProperty("--dissolve", frames[0]);
+  const transition = document.startViewTransition(update);
+  transition.ready.then(() => {
+    const t0 = performance.now();
+    const tick = now => {
+      const i = Math.floor((now - t0) / DISSOLVE_MS * DISSOLVE_STEPS);
+      if (i >= DISSOLVE_STEPS) return;
+      root.style.setProperty("--dissolve", frames[i]);
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }).catch(() => {});
+}
+
+
+/* ---------- theme ---------- */
+function applyTheme(t) {
+  if (t === "oled") document.documentElement.dataset.theme = "oled";
+  else delete document.documentElement.dataset.theme;
+  $("#oled").checked = t === "oled";
+  try { localStorage.setItem("theme", t); } catch (e) {}
+}
+let theme = document.documentElement.dataset.theme === "oled" ? "oled" : "light";
+applyTheme(theme);
+function setTheme(t) { theme = t; applyTheme(t); themeBusy = Date.now(); api.set_option("theme", t); }
+let themeBusy = 0;
+
+/* ---------- backend bridge ---------- */
+let api = null;
+const DEMO = { status: "ligado", name: "Nothing Ear (a)", autostart: true, notifications: true, theme: "light", fit: null, language: "auto", lang: "en",
+  caps: { anc: true, transparency: true, levels: ["nc_adaptive", "nc_low", "nc_mid", "nc_high"], fit: true, bass_levels: 5, in_ear: true,
+    eq_presets: true, custom_eq: true, dual: true, dual_reboot: false, single: false, codecs: [0, 2], codec_names: ["AAC", "LHDC", "LDAC"], ring: "sides", tested: true,
+    gestures: [{ device: 2, button: 1, type: 2, label: "g_double", ops: [8, 9, 11] }, { device: 2, button: 1, type: 3, label: "g_triple", ops: [8, 9, 11] },
+               { device: 2, button: 1, type: 7, label: "g_hold", ops: [10, 18, 19, 11] }, { device: 2, button: 1, type: 9, label: "g_dhold", ops: [10, 18, 19, 11, 1] }] },
+  state: { battery: { left: { level: 75, charging: false }, right: { level: 80, charging: false }, case: { level: 62, charging: true } },
+    anc: "nc_adaptive", eq: 0, bass: { enabled: true, level: 2 }, inear: true, latency: false, firmware: "1.0.1.51", dual: true, codec: 0, custom_eq: { bass: 3, mid: -2, treble: 1 },
+    dual_list: [{ mac: "AA-BB", name: "This PC", self: true, connected: true }, { mac: "CC-DD", name: "Nothing Phone (2)", self: false, connected: false }],
+    gestures: { left: { "1_2": 8, "1_3": 8, "1_7": 22, "1_9": 1 }, right: { "1_2": 9, "1_3": 8, "1_7": 22, "1_9": 1 } } } };
+function demoApi() {
+  const q = new URLSearchParams(location.search);
+  if (q.get("demo") === "off") DEMO.status = "desligado";
+  if (q.get("demo") === "bt") DEMO.status = "bluetooth desligado";
+  if (q.get("theme")) DEMO.theme = q.get("theme");
+  if (q.get("name")) DEMO.name = q.get("name");
+  if (q.get("lang")) DEMO.lang = q.get("lang");
+  return { get_state: async () => DEMO, action: async () => ({}),
+           set_option: async (k, v) => { DEMO[k] = v; if (k === "language") DEMO.lang = v === "auto" ? "en" : v; return true; },
+           open_bluetooth_settings: async () => {}, hide: async () => {}, quit: async () => {} };
+}
+
+/* ---------- language ---------- */
+let I18N = {}, lang = "en";
+const T = key => (I18N[lang] || {})[key] || (I18N.en || {})[key] || key;
+function applyLang(code) {
+  lang = code;
+  $("#dual-list").dataset.key = "";
+  document.documentElement.lang = code;
+  $$("[data-i18n]").forEach(el => { el.textContent = T(el.dataset.i18n); });
+  $$("[data-i18n-title]").forEach(el => { el.title = T(el.dataset.i18nTitle); });
+  $("#language").innerHTML = `<option value="auto">${T("lang_auto")}</option>` +
+    Object.keys(I18N).map(c => `<option value="${c}">${I18N[c].language_name}</option>`).join("");
+  $$("[data-ring]").forEach(renderRingLabel);
+  $$(".seg").forEach(movePill);  // label widths changed
+  renderGestures();
+  if ($("#custom-eq").children.length) renderCustomEq();
+  $("#fit").dataset.phase = "";  // rebuild its text
+  renderFit(null);
+}
+
+let state = {}, gSide = "left", busy = 0, ringing = {};
+const act = body => { busy = Date.now(); return api.action(body); };
+
+const OP_LABELS = { 1: "a_none", 2: "a_play", 3: "a_answer", 8: "a_prev", 9: "a_next", 10: "a_noise_all", 11: "a_voice", 17: "a_latency",
+  18: "a_volup", 19: "a_voldn", 20: "a_noise_no", 21: "a_noise_to", 22: "a_noise_nt", 23: "a_volctl", 29: "a_mic" };
+let caps = {}, capsKey = "", customEq = { bass: 0, mid: 0, treble: 0 };
+
+/* ---------- render ---------- */
+function ago(t) {
+  const m = Math.floor((Date.now() / 1000 - t) / 60);
+  return m < 60 ? m + " min" : m < 1440 ? Math.floor(m / 60) + " h" : Math.floor(m / 1440) + " d";
+}
+
+// stale: last known reading (the case only reports while a bud is docked in it)
+function renderDev(key, b, stale) {
+  const el = $("#dev-" + key);
+  const pct = el.querySelector(".pct"), lbl = el.querySelector(".lbl");
+  const base = T({ left: "left_s", right: "right_s", case: "case", single: "battery" }[key]);
+  el.classList.toggle("na", !b);
+  el.classList.toggle("stale", !!stale);
+  el.classList.toggle("low", !!b && !stale && b.level <= 15 && !b.charging);
+  el.title = key === "case" && (stale || !b) ? T("case_tip") : "";
+  // Fill the dot-matrix art from the bottom up to the battery level.
+  const fill = b ? b.level / 100 : 0;
+  el.querySelectorAll("circle[data-up]").forEach(c => c.classList.toggle("e", !!b && +c.dataset.up > fill + 0.001));
+  if (!b) { pct.textContent = "--"; lbl.innerHTML = base; return; }
+  pct.innerHTML = b.level + "<small>%</small>";
+  lbl.innerHTML = stale ? `${base} · ${ago(b.time)}` : b.charging ? `<span class="chg">● ${base}</span>` : base;
+}
+
+function selectIn(container, v) {
+  container.querySelectorAll("button").forEach(b => b.classList.toggle("sel", b.dataset.v === String(v)));
+  if (container.classList.contains("seg")) movePill(container);
+}
+
+/* Segmented controls: one pill that slides under the selected option. */
+function movePill(seg) {
+  const pill = seg.querySelector(".pill"), b = seg.querySelector("button.sel");
+  if (!b || !b.offsetWidth) { pill.style.opacity = 0; return; }
+  const first = !pill.offsetWidth;  // just became visible: jump, don't slide from 0
+  pill.classList.toggle("instant", first);
+  pill.style.opacity = 1;
+  pill.style.width = b.offsetWidth + "px";
+  pill.style.transform = `translateX(${b.offsetLeft}px)`;
+  if (first) requestAnimationFrame(() => pill.classList.remove("instant"));
+}
+$$(".seg").forEach(seg => {
+  seg.insertAdjacentHTML("afterbegin", '<i class="pill"></i>');
+  new ResizeObserver(() => movePill(seg)).observe(seg);
+});
+
+function renderGestures() {
+  const g = (state.gestures || {})[caps.single ? "single" : gSide] || {};
+  $("#gestures").innerHTML = (caps.gestures || []).map(def => {
+    const key = `${def.button}_${def.type}`, cur = g[key];
+    // "Noise control" (10) can also cycle just two of the modes: 20, 21, 22.
+    const ops = def.ops.flatMap(o => o === 10 && caps.transparency ? [10, 22, 20, 21] : [o]);
+    if (cur !== undefined && !ops.includes(cur)) ops.push(cur);
+    const label = o => OP_LABELS[o] ? T(OP_LABELS[o]) : `${T("a_other")} (${o})`;
+    return `<div class="row"><div class="t">${T(def.label)}</div>
+      <select data-type="${def.type}" data-button="${def.button}" ${cur === undefined ? "disabled" : ""}>
+      ${ops.map(o => `<option value="${o}" ${o === cur ? "selected" : ""}>${label(o)}</option>`).join("")}</select></div>`;
+  }).join("");
+  $$("#gestures select").forEach(sel => sel.onchange = () => act({ action: "gesture", side: caps.single ? "single" : gSide,
+    button: +sel.dataset.button, type: +sel.dataset.type, value: +sel.value }));
+}
+
+/* Show only what the connected model has. */
+function applyCaps(c) {
+  caps = c;
+  const show = (id, on) => { $(id).hidden = !on; };
+  show("#untested", !c.tested);
+  show("#anc-card", c.anc);
+  $('#anc [data-v="transparency"]').hidden = !c.transparency;
+  $$("#nc-level button").forEach(b => { b.hidden = !c.levels.includes(b.dataset.v); });
+  show("#eq", c.eq_presets);
+  show("#eq-custom-chip", c.custom_eq);
+  $("#bass-level").innerHTML = Array.from({ length: c.bass_levels }, (_, i) => `<button data-v="${i + 1}"></button>`).join("");
+  show("#bass-row", c.bass_levels > 0);
+  $("#bass-row").classList.toggle("sub", c.eq_presets);
+  show("#sound-card", c.eq_presets || c.bass_levels > 0);
+  show("#gesture-card", (c.gestures || []).length > 0);
+  show("#g-side", !c.single);
+  show("#inear-row", c.in_ear);
+  show("#dual-row", c.dual);
+  show("#codec-row", (c.codecs || []).length > 1);
+  $("#codec").querySelectorAll("button").forEach(b => b.remove());
+  (c.codecs || []).forEach(i => $("#codec").insertAdjacentHTML("beforeend", `<button data-v="${i}">${c.codec_names[i]}</button>`));
+  show("#fit-btn", c.fit);
+  show('[data-ring="right"]', c.ring === "sides");
+  $$("[data-ring]").forEach(renderRingLabel);
+  ["left", "right", "case"].forEach(k => show("#dev-" + k, !c.single));
+  show("#dev-single", c.single);
+  $("#devices").classList.toggle("one", c.single);
+  let n = 0;  // number the visible cards
+  $$("section.card").forEach(sec => { const b = sec.querySelector("h2 b"); if (b && !sec.hidden) b.textContent = String(++n).padStart(2, "0"); });
+  renderGestures();
+}
+
+/* Custom EQ: -6..+6 per band. */
+const BANDS = [["bass", "band_bass"], ["mid", "band_mid"], ["treble", "band_treble"]];
+function renderCustomEq() {
+  const box = $("#custom-eq");
+  if (!box.children.length) {
+    box.innerHTML = BANDS.map(([k]) => `<div class="band" data-band="${k}"><span class="name mono"></span><div class="dots">${
+      Array.from({ length: 13 }, (_, i) => `<button data-v="${i - 6}"></button>`).join("")}</div><span class="val"></span></div>`).join("");
+    box.onclick = e => {
+      const v = e.target.dataset.v; if (v === undefined) return;
+      customEq[e.target.closest(".band").dataset.band] = +v;
+      renderCustomEq();
+      act({ action: "custom_eq", ...customEq });
+    };
+  }
+  BANDS.forEach(([k, label]) => {
+    const row = box.querySelector(`[data-band="${k}"]`), val = customEq[k];
+    row.querySelector(".name").textContent = T(label);
+    row.querySelector(".val").textContent = (val > 0 ? "+" : "") + val;
+    row.querySelectorAll("button").forEach(b => {
+      const v = +b.dataset.v;
+      b.classList.toggle("zero", v === 0);
+      b.classList.toggle("f", val !== 0 && (val > 0 ? v > 0 && v < val : v < 0 && v > val));
+      b.classList.toggle("tip", val !== 0 && v === val);
+    });
+  });
+}
+
+/* Dual connection: the devices the buds remember. */
+function renderDualList(list, enabled) {
+  const box = $("#dual-list");
+  const data = enabled ? (list || []).filter(d => d.connected) : [];
+  const key = JSON.stringify([data, lang]);
+  if (box.dataset.key === key) return;
+  box.dataset.key = key;
+  box.innerHTML = data.map(d => `<div class="dual-dev"><div class="t">${
+    (d.self ? T("dual_this") : d.name || T("dual_unknown")).replace(/</g, "&lt;")}</div>${
+    d.self ? "" : `<label class="tog"><input type="checkbox" data-mac="${d.mac}" checked><span></span></label>`}</div>`).join("");
+  box.querySelectorAll("input").forEach(i => i.onchange = () => act({ action: "dual_device", mac: i.dataset.mac, connect: i.checked }));
+}
+
+function renderBass(b) {
+  $("#bass-on").checked = b.enabled;
+  $$("#bass-level button").forEach(x => x.classList.toggle("f", +x.dataset.v <= b.level));
+  $("#bass-level").classList.toggle("dis", !b.enabled);
+}
+
+/* Ear-tip fit test: running → result (or a hint if the buds never answer), then it clears itself. */
+const FIT = v => v === 0 ? [T("fit_good"), "var(--ink)"] : v === 1 ? [T("fit_adjust"), "#ffc700"] : [T("fit_fail"), "var(--red)"];
+const FIT_TIMEOUT = 25000, FIT_SHOW = 30000, FIT_HINT_SHOW = 10000;
+let fit = { phase: "idle", t: 0 };
+function renderFit(snapFit) {
+  const now = Date.now(), box = $("#fit"), btn = $("#fit-btn");
+  if (fit.phase === "running" && snapFit && snapFit.time * 1000 >= fit.t - 1000) fit = { phase: "done", t: now, res: snapFit };
+  if (fit.phase === "running" && now - fit.t > FIT_TIMEOUT) fit = { phase: "nores", t: now };
+  if ((fit.phase === "done" && now - fit.t > FIT_SHOW) || (fit.phase === "nores" && now - fit.t > FIT_HINT_SHOW)) fit = { phase: "idle", t: 0 };
+  btn.classList.toggle("busy", fit.phase === "running");
+  btn.querySelector(".mono").textContent = T(fit.phase === "running" ? "fit_running" : "fit");
+  box.hidden = fit.phase === "idle";
+  const html = fit.phase === "running" ? `<span class="mono">${T("fit_running")}</span><div class="scan">${"<span></span>".repeat(5)}</div>` :
+    fit.phase === "nores" ? `<div class="msg">${T("fit_none")}</div>` :
+    fit.phase === "done" ? ["left", "right"].map(s => { const [t, c] = FIT(fit.res[s]);
+      return `<div class="res"><span class="mono">${T(s === "left" ? "left_s" : "right_s")}</span><i style="background:${c}"></i><b>${t}</b></div>`; }).join("") : "";
+  if (box.dataset.phase !== fit.phase) { box.innerHTML = html; box.dataset.phase = fit.phase; }
+}
+
+let lastScreen = null, dissolving = false;
+const screenOf = snap => snap.status === "ligado" ? "on" : snap.status;
+function render(snap) {
+  if (dissolving) return;
+  const changed = lastScreen !== null && ((snap.lang && snap.lang !== lang) || screenOf(snap) !== lastScreen);
+  if (!changed) { paint(snap); return; }
+  dissolving = true;
+  withDissolve(() => { dissolving = false; paint(snap); });
+}
+
+function paint(snap) {
+  lastScreen = screenOf(snap);
+  if (snap.lang && snap.lang !== lang) applyLang(snap.lang);
+  if (document.activeElement !== $("#language")) $("#language").value = snap.language || "auto";
+  const st = snap.status, on = st === "ligado", btOff = st === "bluetooth desligado";
+  const s = $("#status");
+  s.className = "status mono " + (on ? "" : st === "a ligar" ? "wait" : "off");
+  const OFF = {
+    "a ligar": ["st_connecting", "off_connecting_t", "off_connecting_d"],
+    "bluetooth desligado": ["st_bt_off", "off_bt_t", "off_bt_d"],
+    "sem fones": ["st_unpaired", "off_unpaired_t", "off_unpaired_d"],
+  }[st] || ["st_disconnected", "off_disc_t", "off_disc_d"];
+  s.querySelector("span").textContent = T(on ? "st_connected" : OFF[0]);
+  const title = (snap.name || "Nothing").replace(/^Nothing\s+/i, "").toUpperCase();
+  $("#name").textContent = title;
+  $("#name").style.fontSize = title.length > 15 ? "19px" : "";
+  $("#offline").hidden = on; $("#controls").hidden = !on; $("#bat-card").hidden = !on;
+  $("#off-title").textContent = T(OFF[1]);
+  $("#off-text").textContent = T(OFF[2]);
+  $("#bt-open").hidden = !btOff; $("#off-scan").hidden = btOff;
+  $("#bud-connect").hidden = st !== "desligado";
+  if (snap.caps && JSON.stringify(snap.caps) !== capsKey) { capsKey = JSON.stringify(snap.caps); applyCaps(snap.caps); }
+  if (snap.theme && snap.theme !== theme && Date.now() - themeBusy > 2000) { theme = snap.theme; applyTheme(theme); }
+  state = snap.state || {};
+  const bat = on ? (state.battery || {}) : {};
+  renderDev("left", bat.left); renderDev("right", bat.right); renderDev("single", bat.single);
+  if (bat.case) renderDev("case", bat.case);
+  else renderDev("case", snap.case_last, !!snap.case_last);
+  $("#autostart").checked = !!snap.autostart;
+  $("#notifications").checked = !!snap.notifications;
+  $("#fw").textContent = "FW " + (state.firmware || "--");
+  if (Date.now() - busy < 1200 || !on) return;  // don't fight with a click in progress
+  const anc = state.anc || "";
+  selectIn($("#anc"), anc.startsWith("nc") ? "nc" : anc);
+  $("#nc-level").hidden = !anc.startsWith("nc") || (caps.levels || []).length < 2;
+  selectIn($("#nc-level"), anc);
+  $$("#eq .chip").forEach(b => b.classList.toggle("sel", +b.dataset.v === state.eq));
+  $("#eq-custom").hidden = state.eq !== 5 || caps.custom_eq;
+  $("#custom-eq").hidden = state.eq !== 5 || !caps.custom_eq;
+  if (state.custom_eq) customEq = { ...state.custom_eq };
+  if (caps.custom_eq && state.eq === 5) renderCustomEq();
+  $("#dual").checked = !!state.dual;
+  renderDualList(state.dual_list, state.dual);
+  if (state.codec !== undefined) selectIn($("#codec"), state.codec);
+  if (state.bass) renderBass(state.bass);
+  if (state.inear !== undefined) $("#inear").checked = state.inear;
+  if (state.latency !== undefined) $("#latency").checked = state.latency;
+  if (document.activeElement?.tagName !== "SELECT") renderGestures();
+  renderFit(snap.fit);
+}
+
+async function poll() {
+  try { render(await api.get_state()); } catch (e) {}
+  setTimeout(poll, document.hidden ? 4000 : 1000);
+}
+
+/* ---------- events ---------- */
+$("#anc").onclick = e => {
+  const b = e.target.closest("button"); if (!b) return;
+  const v = b.dataset.v;
+  const levels = caps.levels || [];
+  const mode = v !== "nc" ? v : state.anc?.startsWith("nc") ? state.anc : levels.includes("nc_adaptive") ? "nc_adaptive" : levels[levels.length - 1] || "nc_high";
+  selectIn($("#anc"), v); $("#nc-level").hidden = v !== "nc" || levels.length < 2; selectIn($("#nc-level"), mode);
+  act({ action: "anc", mode });
+};
+$("#nc-level").onclick = e => { const v = e.target.dataset.v; if (!v) return; selectIn($("#nc-level"), v); act({ action: "anc", mode: v }); };
+$("#eq").onclick = e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  $$("#eq .chip").forEach(x => x.classList.toggle("sel", x === b));
+  $("#custom-eq").hidden = +b.dataset.v !== 5;
+  if (+b.dataset.v === 5) renderCustomEq();
+  act({ action: "eq", preset: +b.dataset.v });
+};
+const bassLevel = () => $$("#bass-level button.f").length || 1;
+$("#bass-on").onchange = e => { const b = { enabled: e.target.checked, level: bassLevel() }; renderBass(b); act({ action: "bass", ...b }); };
+$("#bass-level").onclick = e => { const v = +e.target.dataset.v; if (!v) return; const b = { enabled: true, level: v }; renderBass(b); act({ action: "bass", ...b }); };
+$("#inear").onchange = e => act({ action: "inear", enabled: e.target.checked });
+$("#latency").onchange = e => act({ action: "latency", enabled: e.target.checked });
+$("#autostart").onchange = e => api.set_option("autostart", e.target.checked);
+$("#notifications").onchange = e => api.set_option("notifications", e.target.checked);
+$("#oled").onchange = e => setTheme(e.target.checked ? "oled" : "light");
+$("#theme-btn").onclick = () => setTheme(theme === "oled" ? "light" : "oled");
+$("#g-side").onclick = e => {
+  const v = e.target.dataset.v; if (!v || v === gSide) return;
+  const dir = v === "right" ? 1 : -1, list = $("#gestures");
+  gSide = v; selectIn($("#g-side"), v);
+  // slide the gesture list out and the other side's list in
+  list.animate([{ transform: "none", opacity: 1 }, { transform: `translateX(${-dir * 28}px)`, opacity: 0 }],
+               { duration: 130, easing: "ease-in", fill: "forwards" });
+  setTimeout(() => {
+    renderGestures();
+    list.getAnimations().forEach(a => a.cancel());
+    list.animate([{ transform: `translateX(${dir * 28}px)`, opacity: 0 }, { transform: "none", opacity: 1 }],
+                 { duration: 220, easing: "cubic-bezier(.3,.7,.2,1)" });
+    setTimeout(() => list.getAnimations().forEach(a => a.finish()), 400);  // never leave it half-faded
+  }, 130);
+};
+function renderRingLabel(b) {
+  const side = b.dataset.ring;
+  const which = caps.ring && caps.ring !== "sides" ? "all" : side === "left" ? "l" : "r";
+  b.querySelector(".mono").textContent = T((ringing[side] ? "stop_" : "ring_") + which);
+}
+$$("[data-ring]").forEach(b => b.onclick = () => {
+  const side = b.dataset.ring; ringing[side] = !ringing[side];
+  b.classList.toggle("active", ringing[side]);
+  renderRingLabel(b);
+  $("#dev-" + side).classList.toggle("ring", ringing[side]);
+  act({ action: "ring", side, on: ringing[side] });
+});
+$("#fit-btn").onclick = () => {
+  if (fit.phase === "running") return;
+  fit = { phase: "running", t: Date.now() }; renderFit(null);
+  act({ action: "fit_test" });
+};
+$("#dual").onchange = e => act({ action: "dual", enabled: e.target.checked });
+let pendingCodec = null;
+$("#codec").onclick = e => {
+  const v = e.target.dataset.v; if (v === undefined || +v === state.codec) { $("#codec-confirm").hidden = true; return; }
+  pendingCodec = +v;
+  $("#codec-warn").textContent = T("codec_warn") + (caps.codec_names[+v] === "LDAC" ? " " + T("codec_ldac") : "");
+  $("#codec-confirm").hidden = false;
+};
+$("#codec-no").onclick = () => { $("#codec-confirm").hidden = true; };
+$("#codec-yes").onclick = () => { $("#codec-confirm").hidden = true; selectIn($("#codec"), pendingCodec); act({ action: "codec", index: pendingCodec }); };
+$("#bud-disconnect").onclick = async () => {
+  const res = await act({ action: "disconnect" });
+  if (res && res.ok === false) $("#disconnect-note").textContent = T("disconnect_fail");
+};
+$("#bud-connect").onclick = () => act({ action: "connect" });
+$("#language").onchange = e => { api.set_option("language", e.target.value); e.target.blur(); };
+$("#bt-open").onclick = () => api.open_bluetooth_settings();
+$("#quit").onclick = () => api.quit();
+$("#close").onclick = () => api.hide();
+document.addEventListener("keydown", e => { if (e.key === "Escape") api.hide(); });
+
+const i18nReady = fetch("i18n.json").then(r => r.json()).then(data => { I18N = data; });
+async function start(a) {
+  if (api) return;
+  api = a;
+  await i18nReady;
+  applyLang(lang);
+  poll();
+  setTimeout(dissolveMasks, 500);  // ready before the first time it's needed
+}
+if (window.__TAURI__) {  // Rust build
+  const call = window.__TAURI__.core.invoke;
+  start({ get_state: () => call("get_state"), action: body => call("action", { body }),
+          set_option: (key, value) => call("set_option", { key, value }),
+          open_bluetooth_settings: () => call("open_bluetooth_settings"),
+          hide: () => call("hide_window"), quit: () => call("quit") });
+} else {  // Python build; a plain browser falls back to sample data for design previews
+  window.addEventListener("pywebviewready", () => start(window.pywebview.api));
+  setTimeout(() => start(window.pywebview?.api || demoApi()), 1500);
+}
+</script>
+</body>
+</html>
