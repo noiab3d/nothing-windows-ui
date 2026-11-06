@@ -1,7 +1,0 @@
-pystray
-pillow
-pywebview
-winrt-runtime
-winrt-Windows.Devices.Radios
-winrt-Windows.Foundation
-winrt-Windows.Foundation.Collections

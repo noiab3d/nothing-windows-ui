@@ -55,9 +55,7 @@ See also the [known issues](KNOWN_ISSUES.md).
 
 ## Build it yourself
 
-The same UI (`ui.html`, `i18n.json`, `models.json`) powers two versions.
-
-**Rust (what the installers are built from).** Needs [Rust](https://rustup.rs), Node.js, and the Visual Studio C++ build tools (plus the ARM64 component for ARM builds):
+Needs [Rust](https://rustup.rs), Node.js, and the Visual Studio C++ build tools (plus the ARM64 component for ARM builds):
 
 ```bash
 cd rust
@@ -66,13 +64,6 @@ npm run build:x64
 ```
 
 Use `npm run build:arm64` for ARM. The `.msi` lands in `rust/src-tauri/target/<target>/release/bundle/msi/`.
-
-**Python (handy for development).** Needs Python 3.10 or newer:
-
-```bash
-pip install -r requirements.txt
-python nothing_ui.pyw
-```
 
 `tools/make_models.py` regenerates `models.json`, and `rust/make_installer_art.py` redraws the installer images.
 

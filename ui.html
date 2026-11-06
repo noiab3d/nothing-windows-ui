@@ -200,7 +200,7 @@
 </style>
 </head>
 <body>
-<header class="pywebview-drag-region" data-tauri-drag-region>
+<header data-tauri-drag-region>
   <div>
     <h1 class="dot" id="name">NOTHING</h1>
     <div class="status mono wait" id="status"><i></i><span></span></div>
@@ -796,9 +796,9 @@ if (window.__TAURI__) {  // Rust build
           set_option: (key, value) => call("set_option", { key, value }),
           open_bluetooth_settings: () => call("open_bluetooth_settings"),
           hide: () => call("hide_window"), quit: () => call("quit") });
-} else {  // Python build; a plain browser falls back to sample data for design previews
-  window.addEventListener("pywebviewready", () => start(window.pywebview.api));
-  setTimeout(() => start(window.pywebview?.api || demoApi()), 1500);
+} else {  // a plain browser falls back to sample data, for design previews
+  window.useHost = start;  // lets a development harness supply its own backend first
+  setTimeout(() => start(demoApi()), 1500);
 }
 </script>
 </body>

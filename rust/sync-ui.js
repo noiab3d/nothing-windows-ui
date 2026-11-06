@@ -1,4 +1,4 @@
-// Copies the UI shared with the Python build into ui/, which Tauri embeds. Runs before each build.
+// Copies the UI from the project root into ui/, which Tauri embeds. Runs before each build.
 const fs = require("fs");
 const path = require("path");
 

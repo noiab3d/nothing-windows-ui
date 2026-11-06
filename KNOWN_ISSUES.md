@@ -7,15 +7,14 @@
 - **Low latency turns off in the earbuds whenever they disconnect.** The app turns it back on when they reconnect.
 - **Changing the audio codec restarts the earbuds.** The app asks first. Windows doesn't normally use LDAC, so that setting mostly matters for your phone.
 - **SmartScreen warns about the installer**, because it isn't code-signed.
-- **Only one app can talk to the earbuds at a time.** Close the Python version before running the installed one.
 - **The installer is only available in English.** The app itself follows your Windows language.
 
 ## Not tested yet
 
-- **ARM64 has never been run.** The installer builds and is the right architecture, but the author has no ARM device to try it on. Reports are very welcome.
+- **ARM64 has never been run.** The installer builds and is the right architecture, but it has not been run on an ARM device yet. Reports are very welcome.
 - **Other models.** Only the Nothing Ear (a) has been tested. Everything else relies on data from the ear-web project, and the app shows a warning. Controls may not match, or may not work.
 - **On the Ear (a):** changing the codec, switching dual connection on or off, and disconnecting another device from the list.
-- **In the installed (Rust) version**, these were tested in the Python version only, and the Rust code is separate: custom EQ, dual connection, Disconnect / Connect, the tray menu, notifications, and hiding on outside click.
+- **In this build:** custom EQ, dual connection, Disconnect / Connect, the tray menu, notifications, and hiding on outside click haven't been tried yet.
 - **Screen scaling above 100%, multiple monitors, and taskbars not at the bottom of the screen.** The panel opens in the bottom-right of the primary screen.
 
 ## Limitations

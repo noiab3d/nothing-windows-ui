@@ -15,6 +15,5 @@ labels: bug
 - App version:
 - Windows version:
 - PC type (x64 or ARM64):
-- Version used (installed or Python):
 
 Please don't include your Bluetooth address.

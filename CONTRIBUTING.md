@@ -8,8 +8,7 @@ Thanks for helping out! The most useful things right now:
 
 ## Code
 
-- `ui.html`, `i18n.json` and `models.json` are shared by both versions. Edit these in the project root; `rust/sync-ui.js` copies the UI at build time.
-- A change to behaviour usually needs doing twice: `ear.py` + `nothing_ui.pyw` (Python) and `rust/src-tauri/src/` (Rust).
+- The interface is `ui.html` and `i18n.json`, in the project root; `rust/sync-ui.js` copies them at build time. The rest of the app is in `rust/src-tauri/src/`.
 - `models.json` is generated: change `tools/make_models.py` rather than editing it by hand.
 - To preview the UI in a browser without earbuds, serve the folder and open `ui.html?demo=1`. Also try `demo=off`, `demo=bt` and `lang=de`.
 

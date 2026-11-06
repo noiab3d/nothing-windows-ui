@@ -14,7 +14,7 @@ A small settings file:
 - The case's last battery reading
 - Your preferences: theme, language, notifications, low latency, start with Windows
 
-Installed version: `%APPDATA%\local.nothingwindowsui.app\config.json`. Python version: `config.json` next to the app. Delete the file to erase it.
+It's at `%APPDATA%\local.nothingwindowsui.app\config.json`. Delete the file to erase it.
 
 "Start with Windows" also adds an entry to your user's Windows startup list (`HKCU\Software\Microsoft\Windows\CurrentVersion\Run`), which you can turn off in the app.
 

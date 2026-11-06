@@ -14,4 +14,4 @@
 
 Because `models.json` is derived from ear-web, this project is released under the GPL-3.0 too.
 
-The Rust version uses [Tauri](https://tauri.app) and other crates, listed with their licenses in `rust/src-tauri/Cargo.lock`. The Python version uses the packages in `requirements.txt`.
+The app uses [Tauri](https://tauri.app) and other crates, listed with their licenses in `rust/src-tauri/Cargo.lock`.
