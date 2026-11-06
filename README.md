@@ -17,8 +17,8 @@ Get the installer from the [latest release](https://github.com/noiab3d/nothing-w
 
 | Your PC | File |
 |---|---|
-| Intel or AMD | `Nothing Windows UI_x.y.z_x64_en-US.msi` |
-| Snapdragon (ARM) | `Nothing Windows UI_x.y.z_arm64_en-US.msi` |
+| Intel or AMD | `Nothing.Windows.UI_x.y.z_x64_en-US.msi` |
+| Snapdragon (ARM) | `Nothing.Windows.UI_x.y.z_arm64_en-US.msi` |
 
 To check which you have: Settings → System → About → "System type".
 
